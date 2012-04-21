@@ -1,0 +1,32 @@
+<head>
+<title>tester</title>
+</head>
+<body>
+  <script src="jquery.js"></script>
+  <script>
+     var ta = Array();
+     ta['homer'] = new Object();
+     ta['homer'].name = 'simpson';
+     ta['gomer'] = new Object();
+     ta['gomer'].name = 'pyle';
+   
+     $(document).ready(function(){
+
+       $('#play').click( function() {
+         for( var fn in ta) {
+           console.log( fn);
+         }
+         for( var i =0; i<ta.length; i++) {
+           console.log(ta[i]);
+         }
+       });
+
+     });
+
+  </script>
+    <h2 id="label">label</h2>
+    <button id="play">play</button>
+
+    <video width="300" height="300" src="imgs/jainna_sitting.ogv" type="video/ogg" controls />
+    
+</body>

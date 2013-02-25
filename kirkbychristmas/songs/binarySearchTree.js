@@ -61,7 +61,7 @@ function sortSongArray( treeNode, arr) {
 
   //add durations if they aren't already there
   if( typeof arr[keys[0]].duration == 'undefined') {
-    addSongDurations( arr);
+    this.addSongDurations( arr);
   }
 
   var nodeInsert= {
@@ -72,7 +72,6 @@ function sortSongArray( treeNode, arr) {
     },
     left:null,
     right:null,
-    parent:treeNode
   };
 
   for( var i=0; i< Math.floor(keys.length/2); i++) {
@@ -91,11 +90,11 @@ function sortSongArray( treeNode, arr) {
   }
 
   if(Object.keys(leftArr).length>0) {
-    sortSongArray( nodeInsert, leftArr);
+    this.sortSongArray( nodeInsert, leftArr);
   }
 
   if(Object.keys(rightArr).length>0) {
-    sortSongArray( nodeInsert, rightArr);
+    this.sortSongArray( nodeInsert, rightArr);
   }
   return treeNode;
 }
@@ -104,15 +103,71 @@ function sortSongArray( treeNode, arr) {
  *
  * @param treeNode the binary tree node to print out and traverse
  */
-function printTree( treeNode)
+function printTree( treeNode, lvl)
 {
-  console.log( treeNode.value.time+'('+treeNode.value.file+')'+':'+(treeNode.parent!=null?treeNode.parent.value.time:'null')+':'+(treeNode.left!=null?treeNode.left.value.time:'null')+':'+(treeNode.right!=null?treeNode.right.value.time:'null'));
+  var spaces='';
+  for(var i=0; i<lvl; i++) {
+    spaces=spaces+'-';
+  }
+  if(lvl==0) {
+    console.log( treeNode)
+  }
+  console.log( spaces+lvl+":"+treeNode.value.time+'('+treeNode.value.file+')'+':'+(treeNode.parent!=null?treeNode.parent.value.time:'null')+':'+(treeNode.left!=null?treeNode.left.value.time:'null')+':'+(treeNode.right!=null?treeNode.right.value.time:'null'));
   if( treeNode.left != null) {
-    printTree( treeNode.left);
+    this.printTree( treeNode.left, lvl+1);
   }
   if( treeNode.right != null) {
-    printTree( treeNode.right);
+    this.printTree( treeNode.right, lvl+1);
   }
+}
+
+function getTreeDepth( treeNode, depth) {
+  if( treeNode == null) {
+    return depth;
+  }
+
+  if( treeNode.left != null || treeNode.right != null) {
+    depth=depth+1;
+  }
+  leftDepth=depth;
+  rightDepth=depth;
+  if( treeNode.left != null) {
+    leftDepth=this.getTreeDepth( treeNode.left, depth);
+  }
+  if( treeNode.right != null) {
+    rightDepth=this.getTreeDepth( treeNode.right, depth);
+  }
+
+  return (leftDepth>rightDepth?leftDepth:rightDepth);
+}
+
+function retrieveLevelNodes( treeNode, searchLvl, currLvl, retArray)
+{
+  if( treeNode == null || currLvl==searchLvl) {
+    retArray.push(treeNode);
+    return;
+  }
+
+  if( treeNode.right != null || treeNode.left != null) {
+    currLvl=currLvl+1;
+  }
+
+  if( treeNode.right != null)
+    this.retrieveLevelNodes( treeNode.right, searchLvl, currLvl, retArray);
+  if( treeNode.left != null)
+    this.retrieveLevelNodes(treeNode.left, searchLvl, currLvl, retArray);
+}
+
+function retrieveNode( treeNode, val)
+{
+  if( treeNode == null || treeNode.value.duration == null || val == treeNode.value.time) {
+    return treeNode;
+  }
+  if( val > treeNode.value.time)
+    return this.retrieveNode( treeNode.right, val);
+  else if(val < treeNode.value.time)
+    return this.retrieveNode( treeNode.left, val);
+  return treeNode;
 }
 
 /* this traverses the binary tree and returns the song image for the timeframe specified
@@ -128,13 +183,13 @@ function retrieveSongImage( treeNode, val)
   }
   if( val > treeNode.value.time) {
     if( treeNode.right != null ) {
-      return retrieveSongImage( treeNode.right, val);
+      return this.retrieveSongImage( treeNode.right, val);
     } else {
       return treeNode;
     }
   } else if( val < treeNode.value.time) {
     if( treeNode.left != null ) {
-      return retrieveSongImage( treeNode.left, val);
+      return this.retrieveSongImage( treeNode.left, val);
     } else {
       return treeNode;
     }
@@ -142,5 +197,13 @@ function retrieveSongImage( treeNode, val)
   return treeNode;
 }
 
-//module.exports.sortSongArray = sortSongArray;
-//module.exports.retrieveSongImage = retrieveSongImage;
+
+if( typeof module !== 'undefined') {
+  module.exports.sortSongArray = sortSongArray;
+  module.exports.retrieveSongImage = retrieveSongImage;
+  module.exports.retrieveNode = retrieveNode;
+  module.exports.printTree = printTree;
+  module.exports.addSongDurations = addSongDurations;
+  module.exports.retrieveLevelNodes = retrieveLevelNodes;
+  module.exports.getTreeDepth = getTreeDepth;
+}

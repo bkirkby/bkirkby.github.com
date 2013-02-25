@@ -1,0 +1,490 @@
+<!doctype html>
+<html>
+  <link rel="stylesheet" type="text/css" href="sing.css" />
+  <head>
+    <meta charset="utf-8">
+    <title>Christmas 2011</title>
+  </head>
+  <body> 
+<!-- <iframe id="fblike" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkirkbychristmas.com%2F2011&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe> -->
+    <img src="imgs/tree.png" /><img src="imgs/merry_christmas.png" id="merryimg"/><img src="imgs/the_kirkbys.png" id="sigimg" />
+    <audio id="au1" >
+      <source src="../songs/ldb/faith hill - little drummer boy.ogg" type="audio/ogg" />
+      <source src="../songs/ldb/faith hill - little drummer boy.mp3" type="audio/mp3" />
+    </audio>
+    <!-- <script type="text/javascript" src="../songs/soundmanager2.js"></script> -->
+    <script src="jquery.js"></script>
+    <script src='../songs/binarySearchTree.js'></script>
+    <script src='../songs/ldb/faith_sing.js'></script>
+    <script src='../songs/ldb/hummer.js'></script>
+    <script src='../songs/ldb/background.js'></script>
+    <script src='../songs/ldb/background2.js'></script>
+    <script>
+
+    if( !(Object.keys instanceof Function)) {
+       Object.keys = function(obj) {
+         var arr = Array();
+         for( var k in obj) {
+           arr.push( k);
+         }
+         return arr;
+       };
+    }
+
+     var _oldhide = $.fn.hide;
+     $.fn.hide = function( speed, callback) {
+       $(this).trigger('hide');
+       return _oldhide.apply( this, arguments);
+     }
+
+     $(window).load( function(){
+       $('#loadingimg').fadeOut(200);
+       $('#bb').fadeIn(500);
+       if( typeof au1.autoplay !== 'undefined'){ 
+         $('#playimg').fadeIn(500);
+       }
+     });
+
+     var jnkVideo = null;
+     var skVideo = null;
+     var au1 = null;
+     var displayedTextId='#allText';
+     var firstRun = true;
+     var sync;
+     var musicPlaying = false;
+     //the key for singer assignments is a jquery reference to an image
+     var singerAssignments = Array();
+     singerAssignments['#ekimg'] = new Object();
+     singerAssignments['#ekimg'].treeSongData = sortSongArray( null, singer[0]);
+     singerAssignments['#bkimg'] = new Object();
+     singerAssignments['#bkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#jkimg'] = new Object();
+     singerAssignments['#jkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#jnkimg'] = new Object();
+     singerAssignments['#jnkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#brkimg'] = new Object();
+     singerAssignments['#brkimg'].treeSongData = sortSongArray( null, singer[2]);
+     singerAssignments['#hkimg'] = new Object();
+     singerAssignments['#hkimg'].treeSongData = sortSongArray( null, singer[2]);
+     singerAssignments['#skimg'] = new Object();
+     singerAssignments['#skimg'].treeSongData = sortSongArray( null, singer[3]);
+     singerAssignments['#mkimg'] = new Object();
+     singerAssignments['#mkimg'].treeSongData = sortSongArray( null, singer[3]);
+
+     //setup the previous image array for last image and time
+     var prevSequences = Array();
+     prevSequences['#ekimg'] = new Object();
+     prevSequences['#ekimg'].lastImage = "face_front.png";
+     prevSequences['#ekimg'].lastImageTime = 0;
+     prevSequences['#ekimg'].lastImageSongTime = 0;
+     prevSequences['#ekimg'].nextSingTime = 9999;
+     prevSequences['#bkimg'] = new Object();
+     prevSequences['#bkimg'].lastImage = "face_front.png";
+     prevSequences['#bkimg'].lastImageTime = 0;
+     prevSequences['#bkimg'].lastImageSongTime = 0;
+     prevSequences['#bkimg'].nextSingTime = 9999;
+     prevSequences['#jkimg'] = new Object();
+     prevSequences['#jkimg'].lastImage = "face_front.png";
+     prevSequences['#jkimg'].lastImageTime = 0;
+     prevSequences['#jkimg'].lastImageSongTime = 0;
+     prevSequences['#jkimg'].nextSingTime = 9999;
+     prevSequences['#jnkimg'] = new Object();
+     prevSequences['#jnkimg'].lastImage = "face_front.png";
+     prevSequences['#jnkimg'].lastImageTime = 0;
+     prevSequences['#jnkimg'].lastImageSongTime = 0;
+     prevSequences['#jnkimg'].nextSingTime = 9999;
+     prevSequences['#mkimg'] = new Object();
+     prevSequences['#mkimg'].lastImage = "face_front.png";
+     prevSequences['#mkimg'].lastImageTime = 0;
+     prevSequences['#mkimg'].lastImageSongTime = 0;
+     prevSequences['#mkimg'].nextSingTime = 9999;
+     prevSequences['#skimg'] = new Object();
+     prevSequences['#skimg'].lastImage = "face_front.png";
+     prevSequences['#skimg'].lastImageTime = 0;
+     prevSequences['#skimg'].lastImageSongTime = 0;
+     prevSequences['#skimg'].nextSingTime = 9999;
+     prevSequences['#brkimg'] = new Object();
+     prevSequences['#brkimg'].lastImage = "face_front.png";
+     prevSequences['#brkimg'].lastImageTime = 0;
+     prevSequences['#brkimg'].lastImageSongTime = 0;
+     prevSequences['#brkimg'].nextSingTime = 9999;
+     prevSequences['#hkimg'] = new Object();
+     prevSequences['#hkimg'].lastImage = "face_front.png";
+     prevSequences['#hkimg'].lastImageTime = 0;
+     prevSequences['#hkimg'].lastImageSongTime = 0;
+     prevSequences['#hkimg'].nextSingTime = 9999;
+ 
+     function getMouseMoveImg( imgId, e) {
+          var img = "";
+          var imgPos = $(imgId).offset();
+          var x = imgPos.left + $(imgId).width()/2;
+          var y = imgPos.top + $(imgId).height()/2;
+          var slope = (e.pageY - y)/(e.pageX - x);
+
+          var bwidth = $(imgId).width()*.7;
+          var bheight = $(imgId).height()*.7;
+          var bx = imgPos.left + ($(imgId).width()-bwidth)/2;
+          var by = imgPos.top + ($(imgId).height()-bheight)/2;
+
+          if( e.pageX >= bx && e.pageX <= bx + bwidth
+              && e.pageY >= by && e.pageY <= by + bheight )
+          {
+            return imgId.substring(1)+"_front.png";
+          }
+
+          if( Math.abs( slope) < 0.5) {
+            if( e.pageX > x) {
+              img = imgId.substring(1)+"_right.png";
+            } else {
+              img = imgId.substring(1)+"_left.png";
+            }
+          } else if( Math.abs( slope) > 5) {
+            if( e.pageY < y) {
+              img = imgId.substring(1)+"_up.png";
+            } else {
+              img = imgId.substring(1)+"_down.png";
+            }
+          } else if( slope < 0.0) {
+            if( e.pageX > x) {
+              img = imgId.substring(1)+"_ne.png";
+            } else {
+              img = imgId.substring(1)+"_sw.png";
+            }
+          } else if( slope > 0.0){
+            if( e.pageY > y) {
+              img = imgId.substring(1)+"_se.png";
+            } else {
+              img = imgId.substring(1)+"_nw.png";
+            }
+          }
+          return img;
+     }
+
+     $(document).ready(function(){
+    
+       au1 = document.getElementById("au1"); 
+       jnkVideo = document.getElementById("jnkVideo");
+       skVideo = document.getElementById("skVideo");
+
+       if( typeof jnkVideo.pause !== 'undefined') {
+         $('#jnkText').bind('hide', function(){
+           jnkVideo.pause();
+         });
+       }
+
+       if( typeof skVideo.pause !== 'undefined') {
+         $('#skText').bind('hide', function(){
+           skVideo.pause();
+         });
+       }
+
+       $(document).mousemove(function(e){
+         if( !musicPlaying) {
+            var img = "imgs/"+getMouseMoveImg( '#bkimg', e);
+            $('#bkimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#ekimg', e);
+            $('#ekimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#brkimg', e);
+            $('#brkimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#hkimg', e);
+            $('#hkimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#jkimg', e);
+            $('#jkimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#mkimg', e);
+            $('#mkimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#skimg', e);
+            $('#skimg').attr("src", img);
+            img = "imgs/"+getMouseMoveImg( '#jnkimg', e);
+            $('#jnkimg').attr("src", img);
+         }
+       });
+
+       $("#playimg").click( function() {
+           var pos = $(this).position();
+           $('#pauseimg').css({ 'left':pos.left+'px', 'top':pos.top+'px'});
+           $(this).css({ 'left':(pos.left+2)+'px', 'top':(pos.top+2)+'px'});
+           musicPlaying = true;
+           au1.play();
+           firstRun = false;
+           sync = setInterval('syncAnims()', 20); 
+           $(this).fadeOut(100);
+           $('#pauseimg').fadeIn( 100);
+       });
+
+       $('#pauseimg').click( function() {
+         var pos = $(this).position();
+         $('#playimg').css({ 'left':pos.left+'px', 'top':pos.top+'px'});
+         $(this).css({ 'left':(pos.left+2)+'px', 'top':(pos.top+2)+'px'});
+         pauseSong();
+       });
+
+       $('#jnkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#jnkText').fadeIn(500);
+         displayedTextId='#jnkText';
+       });
+
+       $('#jkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#jkText').fadeIn(500);
+         displayedTextId='#jkText';
+       });
+
+       $('#brkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#brkText').fadeIn(500);
+         displayedTextId='#brkText';
+       });
+
+       $('#bkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#bkText').fadeIn(500);
+         displayedTextId='#bkText';
+       });
+
+       $('#ekimg').click( function() {
+         $(displayedTextId).hide();
+         $('#ekText').fadeIn(500);
+         displayedTextId='#ekText';
+       });
+
+       $('#hkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#hkText').fadeIn(500);
+         displayedTextId='#hkText';
+       });
+
+       $('#mkimg').click( function() {
+         $(displayedTextId).hide();
+         $('#mkText').fadeIn(500);
+         displayedTextId='#mkText';
+       });
+
+       $('#skimg').click( function() {
+         $(displayedTextId).hide();
+         $('#skText').fadeIn(500);
+         displayedTextId='#skText';
+       });
+     }); //end on ready
+
+     function pauseSong() {
+       musicPlaying = false;
+       au1.pause();
+       clearInterval( sync);
+       $('#pauseimg').fadeOut( 100);
+       $('#playimg').fadeIn(100);
+     }
+
+     /* gets a random singer based on when the last time they sang was. */
+     function getRandomSingerTag( currTime) {
+       var singers = new Array();
+
+       //determine singers
+       for( singer in singerAssignments) {
+         if( prevSequences[singer].nextSingTime - currTime < 4.0) {
+           singers.push( singer);
+         }
+       }
+ 
+       return singers[Math.floor(Math.random()*singers.length)];
+     }
+
+     function getSingerCoords( imgTag) {
+       var ret = new Object();
+       ret.pageY = $(imgTag).offset().top + $(imgTag).height()/2;
+       ret.pageX = $(imgTag).offset().left + $(imgTag).width()/2;
+       return ret;
+     }
+
+     /*
+      * gets a random singer for us to have non singers face. follows a lot of rules to try to make it look natural
+      */
+     function checkForRandomImg( imgFile, imgTag, currTime, nextSequenceTime) {
+       if( (new Date()).getTime() - prevSequences[imgTag].lastImageTime <= 5500) { //make sure we face a direction for at least 2.5 secs
+         return prevSequences[imgTag].lastImage;
+       }
+       if( nextSequenceTime - currTime <= 5.500) { //make sure we have time to face a direction 2.5 secs until next sequence
+         return imgFile;
+       }
+       var r = Math.random();
+       if( r < 0.95) { //weight heavily to not change
+         return prevSequences[imgTag].lastImage;
+       }
+       var randomSinger = getRandomSingerTag( currTime);
+       if( typeof randomSinger == 'undefined') {
+         return imgFile;
+       }
+       var e = getSingerCoords( randomSinger);
+       return getMouseMoveImg( imgTag, e);
+     }
+
+     function getImg( singerData, imgTag, currTime) {
+       var treeNode = retrieveSongImage( singerData.treeSongData, currTime);
+       var songTime = treeNode.value.time;
+       var nextSeqTime = parseFloat( songTime) + treeNode.value.duration;
+       var imgFile = treeNode.value.file;
+
+       if( imgFile == 'face_front.png') {
+         imgFile = checkForRandomImg( imgFile, imgTag, currTime, nextSeqTime);
+       }
+       if( prevSequences[imgTag].lastImage != imgFile) {
+         prevSequences[imgTag].lastImage = imgFile;
+         prevSequences[imgTag].lastImageTime = (new Date()).getTime();
+         prevSequences[imgTag].lastImageSongTime = songTime;
+         prevSequences[imgTag].nextSingTime = nextSeqTime;
+       }
+       return adjustImg( imgFile, imgTag);
+     }
+
+     function adjustImg( imgFile, imgTag) {
+       var s = imgFile.replace("_big", "").replace("_small", "");
+       if( s.indexOf("front")!=-1 && s.indexOf("sing")!=-1 && s.indexOf("hum")!=-1) {
+         return s;
+       } else {
+         s = s.replace("face",imgTag.substring(1));
+       }
+       return s;
+     }
+
+     function resetSingerAnims() {
+       for( var singer in singerAssignments) {
+         $(singer).attr( 'src', "imgs/"+singer.substring(1)+'_front.png');
+       }
+       $('#playimg').css({ 'left':'154px', 'top':'154px'});
+     }
+
+     function syncAnims() {
+       var time = au1.currentTime;
+
+       for( var key in singerAssignments) {
+         var img = "imgs/"+getImg( singerAssignments[key], key, time);
+         if( img != $(key).attr('src')) { 
+           $(key).attr('src', img);
+         }
+       } 
+       if( time == au1.duration) {
+         pauseSong();
+         resetSingerAnims();
+       }
+     }
+         for( var key in singerAssignments) {
+           var img1 = new Image();
+           img1.src = "imgs/"+key.substring(1)+"_hum.png";
+           var img2 = new Image();
+           img2.src = "imgs/"+key.substring(1)+"_sing.png";
+           var img3 = new Image();
+           img3.src = "imgs/"+key.substring(1)+"_sing_big.png";
+           var img4 = new Image();
+           img4.src = "imgs/"+key.substring(1)+"_sing_small.png";
+           var img5 = new Image();
+           img5.src = "imgs/"+key.substring(1)+"_left.png";
+           var img6 = new Image();
+           img6.src = "imgs/"+key.substring(1)+"_right.png";
+           var img7 = new Image();
+           img7.src = "imgs/"+key.substring(1)+"_up.png";
+           var img8 = new Image();
+           img8.src = "imgs/"+key.substring(1)+"_down.png";
+           var img9 = new Image();
+           img9.src = "imgs/"+key.substring(1)+"_nw.png";
+           var img10 = new Image();
+           img10.src = "imgs/"+key.substring(1)+"_ne.png";
+           var img11 = new Image();
+           img11.src = "imgs/"+key.substring(1)+"_se.png";
+           var img12 = new Image();
+           img12.src = "imgs/"+key.substring(1)+"_sw.png";
+         }
+    </script>
+    <div id="bb">
+				<img width="150" height="150" src="imgs/hkimg_front.png" id="hkimg" />
+				<img width="150" height="150" src="imgs/ekimg_front.png" id="ekimg" />
+				<img width="150" height="150" src="imgs/brkimg_front.png" id="brkimg" />
+				<br />
+				<img width="150" height="150" src="imgs/mkimg_front.png" id="mkimg" />
+				<img width="150" height="150" src="imgs/center_background.png" id="cntrimg"/>
+        <img width="150" height="150" src="imgs/play.png" id="playimg"/>
+        <img width="150" height="150" src="imgs/pause.png" id="pauseimg"/>
+				<img width="150" height="150" src="imgs/jkimg_front.png" id="jkimg" />
+				<br />
+				<img width="150" height="150" src="imgs/skimg_front.png" id="skimg" />
+				<img width="150" height="150" src="imgs/bkimg_front.png" id="bkimg" />
+				<img width="150" height="150" src="imgs/jnkimg_front.png" id="jnkimg" />
+		</div>
+  <div id="jainna">
+    <img id="jnkaboutimg" width="150" height="150" src="imgs/jnkimg_front.png" /><textarea>This is what Jainna does for our family.</textarea>
+  </div>
+  <div id="jackson">
+    <img id="jkaboutimg" width="150" height="150" src="imgs/jkimg_front.png" /><textarea>This is what Jackson does for our family.</textarea>
+  </div>
+  <div id="brianne">
+    <img id="brkaboutimg" width="150" height="150" src="imgs/brkimg_front.png" /><textarea>Brianne has been busy this year as the ward Mia Maid President. She’s decided to continue her drum activities by joining the winter drum line after the marching band season is over. She also decided to expand her music education by taking piano lessons. She was asked to join the National Honor Society, which is a great intro into her college preparation.</textarea>
+  </div>
+  <div id="dad">
+    <img id="bkaboutimg" width="150" height="150" src="imgs/bkimg_front.png" /><br/><textarea>This is what Dad does for our family.</textarea>
+  </div>
+  <div id="mom">
+    <textarea id='ektxt'>This is what Mom does for our family.</textarea><br/><img id="ekaboutimg" width="150" height="150" src="imgs/ekimg_front.png" />
+  </div>
+  <div id="hannah">
+    <textarea>This is what Hannah does for our family.</textarea><img id="hkaboutimg" width="150" height="150" src="imgs/hkimg_front.png" />
+  </div>
+  <div id="maegann">
+    <textarea>This is what Maegann does for our family.</textarea><img id="mkaboutimg" width="150" height="150" src="imgs/mkimg_front.png" />
+  </div>
+  <div id="savannah">
+    <textarea>This is what Savannah does for our family.</textarea><img id="skaboutimg" width="150" height="150" src="imgs/skimg_front.png" />
+  </div>
+
+  <div id="descriptionText">
+    <div id="allText">
+      <div id="textHeading"><p id="header">Welcome!</p></div>
+      <div id="textText">
+        <p>This has been quite a year for the Kirkby's with a big move to fabulous Las Vegas! As with any big changes in life, there are new things to love and things left behind that are missed. Everyone is finding their own ways to make the adjustments and thrive here in the city of Saints and Sin.</p>
+        <p>Click on anyone's picture to find out more about what they've been up to.</p>
+        <p>If you have the right kind of browser, you can click on the play button to have us sing (well, lip-sync) you a Christmas song. If it doesn't work, then you don't have the right kind of browser :D (try <a href="https://www.google.com/chrome">Chrome</a> or <a href="http://www.getfirefox.com">Firefox</a>)</p>
+        <p>At the risk of being cliché, we would like to sincerely wish you all a Merry Christmas and very Happy New Year!</p>
+      </div>
+    </div>
+    <div id="brkText">
+      <div id="textHeading"><p id="header">Brianne</p></div>
+      <div id="textText"><p>Brianne has been busy this year as the Ward Mia Maid President. She's decided to continue her drum activities by joining the winter drum line now that marching band is over. She also decided to expand her music education by taking piano lessons. She was asked to join the National Honor Society, which is a great intro into her college preparation.</p>
+      </div>
+    </div>
+    <div id="bkText">
+      <div id="textHeading"><p id="header">Brian</p></div>
+      <div id="textText"><p>Recently, while at work, Brian IM'ed to a friend: "brb. a pilgrim just walked by carrying an accordion and i wanna go see what that’s about." That sums up the awesomeness that is zappos.com. He enjoys making websites with and about his family.</p></div>
+    </div>
+    <div id="ekText">
+      <div id="textHeading"><p id="header">Liz</p></div>
+      <div id="textText"><p>Liz is keeping herself busy with full-time momhood. She serves as the Ward Choir director and the Primary Music Leader as well as the PTO treasurer. When she’s not wowing people with her musical, financial or organizational abilities, she can be found working on dinner, homework, chore charts or piggy banks with one or more of the kids.</p></div>
+    </div>
+    <div id="hkText">
+      <div id="textHeading"><p id="header">Hannah</p></div>
+      <div id="textText"><p>Hannah is thriving at her new charter school by taking on student council responsibilities and generally being a leader of the school. Her teachers all report that Hannah is a natural leader who is always available to help and, at appropriate times, even challenge her teachers. She continues to excel in her piano education, which training she uses to serve as the pianist for young women’s in addition to serving as the Beehive secretary.</p></div>
+    </div>
+    <div id="jkText">
+      <div id="textHeading"><p id="header">Jackson</p></div>
+      <div id="textText"><p>Jackson just competed in the Las Vegas area <a href="http://www.firstlegoleague.org/">FIRST&#8482; LEGO&#8482; League</a> robotics competition where his team placed 5th out of a total of 44 teams. He also plays basketball in a community league and has earned his Arrow of Light in Cub Scouts.</p></div>
+    </div>
+    <div id="mkText">
+      <div id="textHeading"><p id="header">Maegann</p></div>
+      <div id="textText"><p>Maegann enjoys making videos, drawing and arts of all types. She has quite the collection of “wishing stones” as well as rocks of the normal variety. She’s started Activity Days which she greatly enjoys.</p></div>
+    </div>
+    <div id="skText">
+      <div id="textHeading"><p id="header">Savannah</p></div>
+      <div id="textVideo">
+          <p><video id="skVideo" height="200px" width="300px" controls>
+          <source src="imgs/sav_sitting.ogv" />
+          <source src="imgs/sav_sitting.mp4" />
+      </video></p>
+      </div>
+    </div>
+    <div id="jnkText">
+      <div id="textHeading"><p id="header">Jainna</p></div>
+      <div id="textVideo"><p><video id="jnkVideo" height="200px" width="300px" controls>
+        <source src="imgs/jainna_sitting.ogv" />
+        <source src="imgs/jainna_sitting.mp4" />
+      </video></p></div>
+    </div>
+  </div>
+  </body>
+</html>

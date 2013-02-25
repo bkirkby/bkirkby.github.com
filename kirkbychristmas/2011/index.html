@@ -6,19 +6,17 @@
     <title>Christmas 2011</title>
   </head>
   <body> 
-<!-- <iframe id="fblike" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkirkbychristmas.com%2F2011&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe> -->
     <img src="imgs/tree.png" /><img src="imgs/merry_christmas.png" id="merryimg"/><img src="imgs/the_kirkbys.png" id="sigimg" />
     <audio id="au1" >
-      <source src="../songs/ldb/faith hill - little drummer boy.ogg" type="audio/ogg" />
-      <source src="../songs/ldb/faith hill - little drummer boy.mp3" type="audio/mp3" />
+      <source src="../songs/ldb/faith-hill_little-drummer-boy.ogg" type="audio/ogg" />
+      <source src="../songs/ldb/faith-hill_little-drummer-boy.mp3" type="audio/mp3" />
     </audio>
-    <!-- <script type="text/javascript" src="../songs/soundmanager2.js"></script> -->
     <script src="jquery.js"></script>
     <script src='../songs/binarySearchTree.js'></script>
-    <script src='../songs/ldb/faith_sing.js'></script>
-    <script src='../songs/ldb/hummer.js'></script>
-    <script src='../songs/ldb/background.js'></script>
-    <script src='../songs/ldb/background2.js'></script>
+    <script src='../songs/ldb/singer0.js'></script>
+    <script src='../songs/ldb/singer1.js'></script>
+    <script src='../songs/ldb/singer2.js'></script>
+    <script src='../songs/ldb/singer3.js'></script>
     <script>
 
     if( !(Object.keys instanceof Function)) {
@@ -55,21 +53,29 @@
      //the key for singer assignments is a jquery reference to an image
      var singerAssignments = Array();
      singerAssignments['#ekimg'] = new Object();
-     singerAssignments['#ekimg'].treeSongData = sortSongArray( null, singer[0]);
+     singerAssignments['#ekimg'].imgIdx = 0;
+     singerAssignments['#ekimg'].treeSongData = singer[0]['root'];
      singerAssignments['#bkimg'] = new Object();
-     singerAssignments['#bkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#bkimg'].imgIdx = 1;
+     singerAssignments['#bkimg'].treeSongData = singer[1]['root'];
      singerAssignments['#jkimg'] = new Object();
-     singerAssignments['#jkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#jkimg'].imgIdx = 4;
+     singerAssignments['#jkimg'].treeSongData = singer[1]['root'];
      singerAssignments['#jnkimg'] = new Object();
-     singerAssignments['#jnkimg'].treeSongData = sortSongArray( null, singer[1]);
+     singerAssignments['#jnkimg'].imgIdx = 7;
+     singerAssignments['#jnkimg'].treeSongData = singer[1]['root'];
      singerAssignments['#brkimg'] = new Object();
-     singerAssignments['#brkimg'].treeSongData = sortSongArray( null, singer[2]);
+     singerAssignments['#brkimg'].imgIdx = 2;
+     singerAssignments['#brkimg'].treeSongData = singer[2]['root'];
      singerAssignments['#hkimg'] = new Object();
-     singerAssignments['#hkimg'].treeSongData = sortSongArray( null, singer[2]);
+     singerAssignments['#hkimg'].imgIdx = 3;
+     singerAssignments['#hkimg'].treeSongData = singer[2]['root'];
      singerAssignments['#skimg'] = new Object();
-     singerAssignments['#skimg'].treeSongData = sortSongArray( null, singer[3]);
+     singerAssignments['#skimg'].imgIdx = 6;
+     singerAssignments['#skimg'].treeSongData = singer[3]['root'];
      singerAssignments['#mkimg'] = new Object();
-     singerAssignments['#mkimg'].treeSongData = sortSongArray( null, singer[3]);
+     singerAssignments['#mkimg'].imgIdx = 5;
+     singerAssignments['#mkimg'].treeSongData = singer[3]['root'];
 
      //setup the previous image array for last image and time
      var prevSequences = Array();
@@ -129,32 +135,32 @@
           if( e.pageX >= bx && e.pageX <= bx + bwidth
               && e.pageY >= by && e.pageY <= by + bheight )
           {
-            return imgId.substring(1)+"_front.png";
+            return singerAssignments[imgId].imgIdx+'/front.png';
           }
 
           if( Math.abs( slope) < 0.5) {
             if( e.pageX > x) {
-              img = imgId.substring(1)+"_right.png";
+              img = singerAssignments[imgId].imgIdx+'/right.png';
             } else {
-              img = imgId.substring(1)+"_left.png";
+              img = singerAssignments[imgId].imgIdx+"/left.png";
             }
           } else if( Math.abs( slope) > 5) {
             if( e.pageY < y) {
-              img = imgId.substring(1)+"_up.png";
+              img = singerAssignments[imgId].imgIdx+"/up.png";
             } else {
-              img = imgId.substring(1)+"_down.png";
+              img = singerAssignments[imgId].imgIdx+"/down.png";
             }
           } else if( slope < 0.0) {
             if( e.pageX > x) {
-              img = imgId.substring(1)+"_ne.png";
+              img = singerAssignments[imgId].imgIdx+"/ne.png";
             } else {
-              img = imgId.substring(1)+"_sw.png";
+              img = singerAssignments[imgId].imgIdx+"/sw.png";
             }
           } else if( slope > 0.0){
             if( e.pageY > y) {
-              img = imgId.substring(1)+"_se.png";
+              img = singerAssignments[imgId].imgIdx+"/se.png";
             } else {
-              img = imgId.substring(1)+"_nw.png";
+              img = singerAssignments[imgId].imgIdx+"/nw.png";
             }
           }
           return img;
@@ -180,7 +186,7 @@
 
        $(document).mousemove(function(e){
          if( !musicPlaying) {
-            var img = "imgs/"+getMouseMoveImg( '#bkimg', e);
+            img = "imgs/"+getMouseMoveImg( '#bkimg', e);
             $('#bkimg').attr("src", img);
             img = "imgs/"+getMouseMoveImg( '#ekimg', e);
             $('#ekimg').attr("src", img);
@@ -336,19 +342,26 @@
        return adjustImg( imgFile, imgTag);
      }
 
+     /**
+      * this is a hack function to replace _big with _small since the big sing didnt look good
+      * this function will also replace the "face_" prefix with the proper directory. "face_"
+      * was unneccessary (as they were all faces) and this was teh easiest way to fix it.
+      * ex: "face_front.png" comes in, "0/front.png" goes out based on imgTag
+      */
      function adjustImg( imgFile, imgTag) {
        var s = imgFile.replace("_big", "").replace("_small", "");
        if( s.indexOf("front")!=-1 && s.indexOf("sing")!=-1 && s.indexOf("hum")!=-1) {
          return s;
        } else {
-         s = s.replace("face",imgTag.substring(1));
+         s = s.replace("face_",singerAssignments[imgTag].imgIdx+"/");
+         //s=singerAssignments[imgTag].imgIdx+"/"+s;
        }
        return s;
      }
 
      function resetSingerAnims() {
        for( var singer in singerAssignments) {
-         $(singer).attr( 'src', "imgs/"+singer.substring(1)+'_front.png');
+         $(singer).attr( 'src', "imgs/"+singerAssignments[singer].imgId+'/front.png');
        }
        $('#playimg').css({ 'left':'154px', 'top':'154px'});
      }
@@ -369,70 +382,46 @@
      }
          for( var key in singerAssignments) {
            var img1 = new Image();
-           img1.src = "imgs/"+key.substring(1)+"_hum.png";
+           img1.src = "imgs/"+singerAssignments[key].imgIdx+"/hum.png";
            var img2 = new Image();
-           img2.src = "imgs/"+key.substring(1)+"_sing.png";
+           img2.src = "imgs/"+singerAssignments[key].imgIdx+"/sing.png";
            var img3 = new Image();
-           img3.src = "imgs/"+key.substring(1)+"_sing_big.png";
+           img3.src = "imgs/"+singerAssignments[key].imgIdx+"/sing_big.png";
            var img4 = new Image();
-           img4.src = "imgs/"+key.substring(1)+"_sing_small.png";
+           img4.src = "imgs/"+singerAssignments[key].imgIdx+"/sing_small.png";
            var img5 = new Image();
-           img5.src = "imgs/"+key.substring(1)+"_left.png";
+           img5.src = "imgs/"+singerAssignments[key].imgIdx+"/left.png";
            var img6 = new Image();
-           img6.src = "imgs/"+key.substring(1)+"_right.png";
+           img6.src = "imgs/"+singerAssignments[key].imgIdx+"/right.png";
            var img7 = new Image();
-           img7.src = "imgs/"+key.substring(1)+"_up.png";
+           img7.src = "imgs/"+singerAssignments[key].imgIdx+"/up.png";
            var img8 = new Image();
-           img8.src = "imgs/"+key.substring(1)+"_down.png";
+           img8.src = "imgs/"+singerAssignments[key].imgIdx+"/down.png";
            var img9 = new Image();
-           img9.src = "imgs/"+key.substring(1)+"_nw.png";
+           img9.src = "imgs/"+singerAssignments[key].imgIdx+"/nw.png";
            var img10 = new Image();
-           img10.src = "imgs/"+key.substring(1)+"_ne.png";
+           img10.src = "imgs/"+singerAssignments[key].imgIdx+"/ne.png";
            var img11 = new Image();
-           img11.src = "imgs/"+key.substring(1)+"_se.png";
+           img11.src = "imgs/"+singerAssignments[key].imgIdx+"/se.png";
            var img12 = new Image();
-           img12.src = "imgs/"+key.substring(1)+"_sw.png";
+           img12.src = "imgs/"+singerAssignments[key].imgIdx+"/sw.png";
          }
     </script>
     <div id="bb">
-				<img width="150" height="150" src="imgs/hkimg_front.png" id="hkimg" />
-				<img width="150" height="150" src="imgs/ekimg_front.png" id="ekimg" />
-				<img width="150" height="150" src="imgs/brkimg_front.png" id="brkimg" />
+				<img width="150" height="150" src="imgs/3/front.png" id="hkimg" />
+				<img width="150" height="150" src="imgs/0/front.png" id="ekimg" />
+				<img width="150" height="150" src="imgs/2/front.png" id="brkimg" />
 				<br />
-				<img width="150" height="150" src="imgs/mkimg_front.png" id="mkimg" />
+				<img width="150" height="150" src="imgs/5/front.png" id="mkimg" />
 				<img width="150" height="150" src="imgs/center_background.png" id="cntrimg"/>
         <img width="150" height="150" src="imgs/play.png" id="playimg"/>
         <img width="150" height="150" src="imgs/pause.png" id="pauseimg"/>
-				<img width="150" height="150" src="imgs/jkimg_front.png" id="jkimg" />
+				<img width="150" height="150" src="imgs/4/front.png" id="jkimg" />
 				<br />
-				<img width="150" height="150" src="imgs/skimg_front.png" id="skimg" />
-				<img width="150" height="150" src="imgs/bkimg_front.png" id="bkimg" />
-				<img width="150" height="150" src="imgs/jnkimg_front.png" id="jnkimg" />
+				<img width="150" height="150" src="imgs/6/front.png" id="skimg" />
+				<img width="150" height="150" src="imgs/1/front.png" id="bkimg" />
+				<img width="150" height="150" src="imgs/7/front.png" id="jnkimg" />
 		</div>
-  <div id="jainna">
-    <img id="jnkaboutimg" width="150" height="150" src="imgs/jnkimg_front.png" /><textarea>This is what Jainna does for our family.</textarea>
-  </div>
-  <div id="jackson">
-    <img id="jkaboutimg" width="150" height="150" src="imgs/jkimg_front.png" /><textarea>This is what Jackson does for our family.</textarea>
-  </div>
-  <div id="brianne">
-    <img id="brkaboutimg" width="150" height="150" src="imgs/brkimg_front.png" /><textarea>Brianne has been busy this year as the ward Mia Maid President. She’s decided to continue her drum activities by joining the winter drum line after the marching band season is over. She also decided to expand her music education by taking piano lessons. She was asked to join the National Honor Society, which is a great intro into her college preparation.</textarea>
-  </div>
-  <div id="dad">
-    <img id="bkaboutimg" width="150" height="150" src="imgs/bkimg_front.png" /><br/><textarea>This is what Dad does for our family.</textarea>
-  </div>
-  <div id="mom">
-    <textarea id='ektxt'>This is what Mom does for our family.</textarea><br/><img id="ekaboutimg" width="150" height="150" src="imgs/ekimg_front.png" />
-  </div>
-  <div id="hannah">
-    <textarea>This is what Hannah does for our family.</textarea><img id="hkaboutimg" width="150" height="150" src="imgs/hkimg_front.png" />
-  </div>
-  <div id="maegann">
-    <textarea>This is what Maegann does for our family.</textarea><img id="mkaboutimg" width="150" height="150" src="imgs/mkimg_front.png" />
-  </div>
-  <div id="savannah">
-    <textarea>This is what Savannah does for our family.</textarea><img id="skaboutimg" width="150" height="150" src="imgs/skimg_front.png" />
-  </div>
 
   <div id="descriptionText">
     <div id="allText">

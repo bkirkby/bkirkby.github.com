@@ -1,30 +1,99 @@
-<html><head><title>projects</title> </head>
-<style>
-  body {
-    color: #8f6200;
-    font-family: 'Droid Sans Mono', 'Lucida Console', Monaco, monospace;
-  }
-  b { font-weight: normal; color:#efa300; background:#181818; position:relative; }
-  a { text-decoration: none; }
-  div.projDesc {
-    margin-left: 0.75in;
-    margin-bottom: 0.15in;
-  }
-</style>
-<body bgcolor="#181818">
-<div>here is a list of projects that i have either done, worked on, or would like to see done.</div><p/>
-<div>0001: <a href="https://github.com/bkirkby/dynaSig"><b>dynaSig</b></a>. i wanted a new email sig every day.</div>
-<div class="projDesc">python and bash scripts with ImageMagick to create a new email sig every day. a one off with some hackish elements.</div>
-<div>0002: <a href="kirkbychristmas/index.html"><b>kirkby Christmas</b></a>. our family Christmas card.</div>
-<div class="projDesc">a virtual christmas card that i worked on with my kids</div>
-<div>0003: craps. a system to detect and report when bathroom stalls are occupied or available.</div>
-<div class="projDesc"> a zappos ip, inc. hack-a-thon project. using proximity sensors for each toilet and an adruino with an ethernet shield, you can always know if there is a stall available before you waste time going there.</div>
-<div>0004: punctuated equilibrium. a search for ai using the methods of the natural world.</div>
-<div class="projDesc">what can happen when you mix randomized op codes with botnets? lets find out!</div>
-<div>0005: two-way door. a front door that you can see through from inside out.</div>
-<div class="projDesc">using small camera's on the outside and a bunch of led's on the inside, i wanna create a two-way door</div>
-<div>0006: stay away screen saver.</div>
-<div class="projDesc">a screen saver that turns on the camera of my laptop, recognizes faces and warns if they get too close</div>
-<div>0007: <a href="kanban/index.html"><b>kanban</b></a>. an android sandbox environment thingie with no objective.</div>
-<div class="projDesc">inspired from the mind of David J. Kenney.</div>
+<!DOCTYPE html>
+<html><head><title>brian kirkby projets</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        color: #8f6200;
+        background-color: #181818;
+        font-family: 'Droid Sans Mono', 'Lucida Console', Monaco, monospace;
+      }
+      b { font-weight: normal; color:#efa300; background:#181818; position:relative; }
+      a { text-decoration: none; }
+      a:visited {
+        color: #DBB84D;
+      }
+      div.projHead {
+        padding-left: 45px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #1f0f0f;
+        border-left: thin solid #ffe0b2;
+        border-top: thin solid #ffe0b2;
+        //border-left: medium solid #ffe0b2;
+        //border-bottom: medium solid #ffe0b2;
+      }
+      div.projDesc {
+        padding-top: 5px;
+        background-color: #1f0f0f;
+        border-top: thin solid #ffe0b2;
+      }
+      div.proj {
+        padding-left: 60px;
+        padding-bottom: 15px;
+        padding-top: 5px;
+      }
+      div.row {
+        margin-left: 5px;
+      }
+      div.page-header {
+        padding-left: 10px;
+        border-bottom: 0px;
+      }
+    </style>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="js/jquery.js"></script>
+</head>
+<div class="page-header"><h1>Projects</h1></div>
+<div class="row">
+  <div class="col-md-1 projHead">0001:</div>
+  <div class="col-md-11 projDesc"> <a href="https://github.com/bkirkby/dynaSig"><b>dynaSig</b></a>. i wanted a new email sig every day.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">python and bash scripts with ImageMagick to create a new email sig every day. a one off with some hackish elements.</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0002:</div>
+  <div class="col-md-11 projDesc"><a href="kirkbychristmas/index.html"><b>kirkby Christmas</b></a>. our family Christmas card.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">a virtual christmas card that i worked on with my kids</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0003:</div>
+  <div class="col-md-11 projDesc">critical relief assessment potty system (craps). a system to detect and report when bathroom stalls are occupied or available.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12"> a zappos ip, inc. hack-a-thon winner. using proximity sensors for each toilet and an adruino with an ethernet shield, you can always know if there is a stall available before you waste time going there.</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0004:</div>
+  <div class="col-md-11 projDesc"><a href="kanban/index.html"><b>kanban</b></a>. an android sandbox environment thingie with no objective.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">inspired from the mind of David J. Kenney.</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0005:</div>
+  <div class="col-md-11 projDesc"><a href="https://github.com/bkirkby/TriFiClient">tri-fi</a>. a machine learning system that uses WIFI to determine indoor geolocation.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">originally conceived as being trilateration through WIFI (hence tri-fi), we decided to use ML regression models instead to determine x, y and z coordinates on company campus. a three day hack-a-thon that produced a working prototype.</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0006:</div>
+  <div class="col-md-11 projDesc"><a href="http://www.timberheap.com">timberHeap</a>.  a home internet filter/monitor system using open source and raspberry pi.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">as a father i realized that there was no good way for parents to be informed about what is happening on the internet in their house. this project is aimed to help parents stay informed about what their kids are getting involved in so they can have opportunity to parent.</div>
+</div>
+<div class="row">
+  <div class="col-md-1 projHead">0007:</div>
+  <div class="col-md-11 projDesc">Self Classical Conditioning in Disparate Systems. a research project studying behavioral economics for UX design.</div>
+</div>
+<div class="row proj">
+  <div class="col-md-12">our hypothesis was that you could enhance user experience by presenting them with self classical conditioned stimuli when they interact with your interface.<p><p>
+the first step was to see if self classical conditioning stimuli could be effective in a completely disparate system than where the conditioning occurred. we did this by creating an interface that displayed three different shapes and associated a shound with each shape. one shape had the sound of a railroad crossing bell. another had the sound of a UFO and the last had a shortened version of the World of Warcraft level up sound. after establishing which sound was attached to which shape, we randomized the display order and asked users to click on whatever shape they wanted to 25 times. we then quizzed them about their preferences for each sound and their experience in playing video games including WoW.<p>
+we discovered that people who have never played WoW were disposed to not prefer the WoW level-up sound (they selected that soud in preference only 8% of the time). those who had played WoW preferred the WoW level-up sound by over 80% even when they couldn't consciously recognize what the sound was.</div>
+</div>
 </body>

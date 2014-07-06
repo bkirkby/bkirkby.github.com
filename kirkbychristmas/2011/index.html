@@ -33,7 +33,7 @@
      $.fn.hide = function( speed, callback) {
        $(this).trigger('hide');
        return _oldhide.apply( this, arguments);
-     }
+     };
 
      $(window).load( function(){
        $('#loadingimg').fadeOut(200);
@@ -361,7 +361,7 @@
 
      function resetSingerAnims() {
        for( var singer in singerAssignments) {
-         $(singer).attr( 'src', "imgs/"+singerAssignments[singer].imgId+'/front.png');
+         $(singer).attr( 'src', "imgs/"+singerAssignments[singer].imgIdx+'/front.png');
        }
        $('#playimg').css({ 'left':'154px', 'top':'154px'});
      }
@@ -422,6 +422,7 @@
 				<img width="150" height="150" src="imgs/1/front.png" id="bkimg" />
 				<img width="150" height="150" src="imgs/7/front.png" id="jnkimg" />
 		</div>
+    <img width="150" height="150" src="imgs/loading.gif" id="loadingimg"/>
 
   <div id="descriptionText">
     <div id="allText">

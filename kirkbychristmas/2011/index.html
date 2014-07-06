@@ -184,6 +184,17 @@
          });
        }
 
+       $('#skVideo').click( function(){
+         if( skVideo.paused == true) {
+           pauseSong();
+         }
+       });
+       $('#jnkVideo').click( function(){
+         if( jnkVideo.paused == true) {
+           pauseSong();
+         }
+       });
+
        $(document).mousemove(function(e){
          if( !musicPlaying) {
             img = "imgs/"+getMouseMoveImg( '#bkimg', e);

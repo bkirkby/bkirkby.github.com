@@ -1,9 +1,56 @@
 <html><head><title>bkirkby</title></head>
 <script type="text/javascript">
-  #function flicker() {
-  #  if
-  #}
-  #var t = setTimeout('document.body.style.color="#8f6200"', 2000);
+  var offdelay=200;
+  var offColor = "rgb(143, 98, 0)";
+  var onColor = "rgb(239, 163, 0)";
+  var toggleTimings = [
+                       2000,500,
+                       offdelay,800,
+                       offdelay,1300
+                      ];
+  var lastStart,flickDelay;
+
+  function isOn(elem) {
+    if (elem.style.color) {
+      return (elem.style.color === onColor);
+    }
+    return false; // it starts out as off
+  }
+
+  function toggleOnOff(elemArr) {
+    elemArr.forEach(function(elem){
+      elem.style.color = isOn(elem)?offColor:onColor;
+    });
+  }
+
+  function turnOn(elemArr) {
+    elemArr.forEach(function(elem){
+      elem.style.color = onColor;
+    });
+  }
+
+  function animateFlicker(elemArr) {
+    requestAnimationFrame(function(){
+      currTime = Date.now();
+      if (currTime-lastStart >= flickDelay) {
+        toggleOnOff(elemArr);
+        if (toggleTimings.length <= 0) {
+          turnOn(elemArr);
+          return;
+        }
+        lastStart = Date.now();
+        flickDelay = toggleTimings.shift();
+      }
+      animateFlicker(elemArr);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(event) { 
+    //do work
+    lastStart = Date.now();
+    flickDelay = toggleTimings.shift();
+    animateFlicker(document.querySelectorAll("b"));
+  });
 </script>
 <style type=text/css>
   body { 
@@ -11,7 +58,7 @@
     font-family: 'Droid Sans Mono', 'Lucida Console', Monaco, monospace;
   } 
 
-  b { font-weight: normal; color:#efa300; background:#181818; position:relative; }
+  b { font-weight: normal; color:#8f6200; background:#181818; position:relative; }
   a { text-decoration: none; }
 </style>
 

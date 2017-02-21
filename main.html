@@ -1,13 +1,14 @@
 <html><head><title>bkirkby</title></head>
 <script type="text/javascript">
-  var offdelay=200;
+  var scrollDuration = 1000;
+  var flickerStartDelay = scrollDuration+1000;
   var offColor = "rgb(143, 98, 0)";
   var onColor = "rgb(239, 163, 0)";
   var toggleTimings = [
-                       1000,40,
+                       flickerStartDelay,40,
                        40,160,
                        1000,800,
-                       offdelay,40,
+                       200,40,
                        20,
                       ];
   var lastStart,flickDelay;
@@ -53,6 +54,7 @@
     requestAnimationFrame(function(){
       var currTime = Date.now(),
           newY = ((currTime-startTime)/duration) * scrollY;
+      console.log(currTime+": "+newY,"duration: "+duration,"currTime-startTime: "+(currTime-startTime)+",scrollY: "+scrollY);
       if( currTime >= endTime ) {
         window.scrollTo(0,scrollY);
       } else {
@@ -63,11 +65,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", function(event) { 
+    window.scrollTo(0,0);
     var scrollElem = document.getElementById("02e0");
-    var scrollY = scrollElem.getBoundingClientRect().top;
+    var scrollY = window.scrollY+scrollElem.getBoundingClientRect().top;
     lastStart = Date.now();
     flickDelay = toggleTimings.shift();
-    animateScroll(scrollY, Date.now(), 400);
+
+    animateScroll(scrollY, Date.now(), scrollDuration);
     animateFlicker(document.querySelectorAll("b"));
   });
 </script>

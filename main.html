@@ -4,10 +4,11 @@
   var offColor = "rgb(143, 98, 0)";
   var onColor = "rgb(239, 163, 0)";
   var toggleTimings = [
-                       2000,40,
+                       1000,40,
                        40,160,
-                       1500,800,
-                       offdelay
+                       1000,800,
+                       offdelay,40,
+                       20,
                       ];
   var lastStart,flickDelay;
 
@@ -46,10 +47,27 @@
     });
   }
 
+  function animateScroll(scrollY, startTime, duration) {
+    var endTime = startTime + duration;
+    var startY = 0;
+    requestAnimationFrame(function(){
+      var currTime = Date.now(),
+          newY = ((currTime-startTime)/duration) * scrollY;
+      if( currTime >= endTime ) {
+        window.scrollTo(0,scrollY);
+      } else {
+        window.scrollTo(0,newY);
+        animateScroll(scrollY, startTime, duration);
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function(event) { 
-    //do work
+    var scrollElem = document.getElementById("02e0");
+    var scrollY = scrollElem.getBoundingClientRect().top;
     lastStart = Date.now();
     flickDelay = toggleTimings.shift();
+    animateScroll(scrollY, Date.now(), 400);
     animateFlicker(document.querySelectorAll("b"));
   });
 </script>
@@ -111,7 +129,7 @@
 02b0: f5f5f5f6f6f6f7f7f7f8f8f8f9f9f9fa ................<br/>
 02c0: fafafbfbfbfcfcfcfdfdfdfefefeffff ................<br/>
 02d0: ffffffffffffffffffffffffffffffff ................<br/>
-<a name="02e0">02e0</a>: ffffffffffffffffffffffffffffffff ................<br/>
+<a name="02e0" id="02e0">02e0</a>: ffffffffffffffffffffffffffffffff ................<br/>
 02f0: ffffffffffffffffffffffffffffffff ................<br/>
 0300: ffffffffffffffffffffffffff21fe81 .............!..<br/>
 0310: 2e<b>627269616e</b>2e2e2e2e2e2e2e2e2e0a .<b>brian</b>..........<br/>
@@ -245,4 +263,6 @@
 0b10: 084538c212fffde09753010a4c4c4102 .E8......S..LLA.<br/>
 0b20: 0838404000003b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.8@@..;<br/>
 </div>
+<br/>
+<div style={position: absolute; left:0; top:0}><small><sup>last updated: 2017/02/20</sup></small></div></div>
 </body></html>

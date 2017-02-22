@@ -10,7 +10,7 @@
                        1000,800,
                        20
                       ];
-  var lastStart,flickDelay;
+  var flickDelay;
 
   function isOn(elem) {
     if (elem.style.color) {
@@ -31,7 +31,7 @@
     });
   }
 
-  function animateFlicker(elemArr) {
+  function animateFlicker(elemArr, lastStart) {
     requestAnimationFrame(function(){
       currTime = Date.now();
       if (currTime-lastStart >= flickDelay) {
@@ -43,7 +43,7 @@
         lastStart = Date.now();
         flickDelay = toggleTimings.shift();
       }
-      animateFlicker(elemArr);
+      animateFlicker(elemArr,lastStart);
     });
   }
 
@@ -63,14 +63,18 @@
   }
 
   document.addEventListener("DOMContentLoaded", function(event) { 
-    window.scrollTo(0,0);
-    var scrollElem = document.getElementById("02e0");
-    var scrollY = window.scrollY+scrollElem.getBoundingClientRect().top;
-    lastStart = Date.now();
-    flickDelay = toggleTimings.shift();
+    var allBolds = document.querySelectorAll("b");
+    var lastStart = Date.now();
+    if (window.scrollY > 0) {
+      turnOn(allBolds);
+    } else {
+      var scrollElem = document.getElementById("02e0");
+      var scrollY = window.scrollY+scrollElem.getBoundingClientRect().top;
+      flickDelay = toggleTimings.shift();
 
-    animateScroll(scrollY, Date.now(), scrollDuration);
-    animateFlicker(document.querySelectorAll("b"));
+      animateScroll(scrollY, Date.now(), scrollDuration);
+      animateFlicker(allBolds, lastStart);
+    }
   });
 </script>
 <style type=text/css>

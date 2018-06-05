@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/bkirkby
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://bkirkby.github.io
+  * I am bkirkby (https://keybase.io/bkirkby) on keybase.
+  * I have a public key ASB5MZ9s25pLV03IruEDUtd0SLkJu4JoNq4TS0WKkbrxfQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01202fe3e541fb71f98171a659f60453e95fec8d0db8d75ab09703dad44fab55d8360a",
+      "host": "keybase.io",
+      "kid": "012079319f6cdb9a4b574dc8aee10352d77448b909bb826836ae134b458a91baf17d0a",
+      "uid": "fe58560d24846a79ba7b85ccb97b3519",
+      "username": "bkirkby"
+    },
+    "merkle_root": {
+      "ctime": 1528173029,
+      "hash": "3b1c51f2b1fe2e27dbbaab229bb8924766b190338ea597710b183b636f9c4e63ce102f1e492a228c0521f40b8e137e811f255b6198cc0eb3c8dcec7862797f15",
+      "hash_meta": "dd67e30c7f0e5bb56b2a14493f6a4b33f730bcde4e9034977b9c97153688e311",
+      "seqno": 2995926
+    },
+    "service": {
+      "entropy": "rH9MQ7oOkoUN6INyyKOii1qU",
+      "hostname": "bkirkby.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.0.0"
+  },
+  "ctime": 1528173084,
+  "expire_in": 504576000,
+  "prev": "c661fe1a78fddbb50615482944ba39959e4b14ed912c3a8f6fba64cd0b7a9d9d",
+  "seqno": 17,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgeTGfbNuaS1dNyK7hA1LXdEi5CbuCaDauE0tFipG68X0Kp3BheWxvYWTESpcCEcQgxmH+Gnj927UGFUgpRLo5lZ5LFO2RLDqPb7pkzQt6nZ3EIGYGu5vQX1p7QFICFFEyjUu1SSubhrnzpSFO9a1m4xsIAgHCo3NpZ8RAKtChuPbpWUsGSiwR798gnxQpRmYUGA9dGNM9gI+uX1bCtPjo0n2UG1xaB9u75UUaBYpIJvEDrjBAa3P0fZTrBKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEILPFvi/RdLpetHNYd4hrtGZKoEzpI6VAsfebO9HViOaBo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/bkirkby
+
+==================================================================

@@ -1,3 +1,16 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Fixed-size design stage for the original desktop layout.
+   Below 1000px it reflows to a stacked mobile layout (see @media at end). */
+#stage {
+  position: relative;
+  width: 1000px;
+  height: 810px;
+}
+
 #au1 {
   position: absolute;
   top: 100px;
@@ -185,4 +198,102 @@ a {
   position: absolute;
   left: 200px;
   top: 560px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Mobile / narrow-screen reflow.
+ * The desktop design is a 1000px-wide absolutely-positioned "stage".
+ * Below that width we drop the absolute layout and stack the pieces
+ * vertically so everything fits and stays readable. The face grid is
+ * rebuilt at 330px (3 x 110px) keeping the same pixel-based structure
+ * the singing JS relies on, so play/pause and the animation still work.
+ * ------------------------------------------------------------------ */
+@media (max-width: 1000px) {
+  html, body {
+    background: #0d0d0d;
+  }
+
+  #stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 12px 0 28px;
+    box-sizing: border-box;
+  }
+
+  /* header: just the Merry Christmas banner (tree hidden on mobile) */
+  #hdr {
+    order: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 16px;
+  }
+  #treeimg { display: none; }
+
+  /* stacking order: header, faces, bios, signature */
+  #bb            { order: 2; }
+  #descriptionText { order: 3; }
+  #sigimg        { order: 4; }
+
+  #merryimg {
+    position: static;
+    display: block;
+    max-width: 230px;
+    height: auto;
+    margin: 0;
+  }
+
+  #sigimg {
+    position: static;
+    display: block;
+    max-width: 60%;
+    height: auto;
+    margin: 20px auto 4px;
+  }
+
+  /* face grid: fixed 3 x 110px block, centered */
+  #bb {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 330px;
+    height: 330px;
+    margin: 0 auto;
+    font-size: 0;    /* kill inline-image whitespace so 3 fit per row */
+    line-height: 0;
+  }
+  #bb img.rounded { width: 110px; height: 110px; }
+
+  /* center cell (background + play/pause) and the pulled-out cells */
+  #cntrimg,
+  #playimg,
+  #pauseimg { left: 110px; top: 110px; width: 110px; height: 110px; }
+  #jkimg    { left: 220px; top: 110px; }
+
+  /* loading spinner is placed relative to the stage on desktop; just hide it here */
+  #loadingimg { display: none; }
+
+  /* bio panel: full-width readable card below the grid */
+  #descriptionText {
+    position: static;
+    top: auto;
+    left: auto;
+    width: 92%;
+    max-width: 340px;
+    height: auto;
+    margin: 4px auto 0;
+  }
+}
+
+/* Very narrow phones (<=360px): shrink the grid to 3 x 100px so it fits. */
+@media (max-width: 360px) {
+  #bb { width: 300px; height: 300px; }
+  #bb img.rounded { width: 100px; height: 100px; }
+  #cntrimg,
+  #playimg,
+  #pauseimg { left: 100px; top: 100px; width: 100px; height: 100px; }
+  #jkimg    { left: 200px; top: 100px; }
 }

@@ -374,7 +374,11 @@
        for( var singer in singerAssignments) {
          $(singer).attr( 'src', "imgs/"+singerAssignments[singer].imgIdx+'/front.png');
        }
-       $('#playimg').css({ 'left':'154px', 'top':'154px'});
+       // Snap the play button back onto the center cell. Use the center
+       // cell's current position rather than a hardcoded 154,154 so it stays
+       // correct at every responsive breakpoint (154 desktop, 110 mobile, 100 tiny).
+       var c = $('#cntrimg').position();
+       $('#playimg').css({ 'left':c.left+'px', 'top':c.top+'px'});
      }
 
      function syncAnims() {

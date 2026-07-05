@@ -19,13 +19,20 @@ html, body {
 
 #bb {
   position: absolute;
-  top: 100px;
+  top: 200px;
   left: 200px;
-  display: none;
 }
 
 img.rounded {
   border-radius: 15px 15px 15px 15px;
+}
+
+/* Reserve each face cell and show a loading placeholder until the
+   (opaque) face photo finishes loading and paints over it. */
+#bb img.rounded,
+#cntrimg {
+  background: #efe9db url("imgs/loading.gif") no-repeat center;
+  background-size: 48px 48px;
 }
 
 #jkimg {
@@ -34,16 +41,11 @@ img.rounded {
   top: 154px;
 }
 
-#loadingimg {
-  position: absolute;
-  left: 354px;
-  top: 254px;
-}
-
 #cntrimg {
   position: absolute;
   left: 154px;
   top: 154px;
+  border-radius: 15px;
 }
 
 #playimg {
@@ -52,6 +54,7 @@ img.rounded {
   top: 154px;
   opacity: .70;
   display: none;
+  border-radius: 15px;
 }
 
 #pauseimg {
@@ -60,6 +63,7 @@ img.rounded {
   top: 154px;
   opacity: .70;
   display: none;
+  border-radius: 15px;
 }
 
 #jainna {
@@ -125,13 +129,13 @@ img {
 
 #sigimg {
   position: absolute;
-  top: 580px;
-  left: 475px;
+  top: 82px;
+  left: 234px;
 }
 
 #descriptionText{
   position: absolute;
-  top: 100px;
+  top: 200px;
   left: 670px;
   width: 330px;
   height: 462px;
@@ -233,10 +237,10 @@ a {
   }
   #treeimg { display: none; }
 
-  /* stacking order: header, faces, bios, signature */
-  #bb            { order: 2; }
-  #descriptionText { order: 3; }
-  #sigimg        { order: 4; }
+  /* stacking order: header, signature, faces, bios */
+  #sigimg        { order: 2; }
+  #bb            { order: 3; }
+  #descriptionText { order: 4; }
 
   #merryimg {
     position: static;
@@ -251,7 +255,7 @@ a {
     display: block;
     max-width: 60%;
     height: auto;
-    margin: 20px auto 4px;
+    margin: 4px auto 16px;
   }
 
   /* face grid: fixed 3 x 110px block, centered */
@@ -272,9 +276,6 @@ a {
   #playimg,
   #pauseimg { left: 110px; top: 110px; width: 110px; height: 110px; }
   #jkimg    { left: 220px; top: 110px; }
-
-  /* loading spinner is placed relative to the stage on desktop; just hide it here */
-  #loadingimg { display: none; }
 
   /* bio panel: full-width readable card below the grid */
   #descriptionText {

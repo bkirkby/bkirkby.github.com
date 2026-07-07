@@ -5,6 +5,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Christmas 2011</title>
+    <!-- Google Analytics (GA4) - scoped to this page only.
+         Inert until GA_MEASUREMENT_ID below is set to a real G-XXXXXXXXXX id. -->
+    <script>
+      window.GA_MEASUREMENT_ID = 'G-RW5LVB817V';   // GA4 measurement id
+      // Only send data from the real site (not file:// previews or localhost),
+      // and only once a real measurement id has been filled in above.
+      window.GA_ENABLED =
+        GA_MEASUREMENT_ID.indexOf('G-') === 0 &&
+        GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX' &&
+        location.protocol !== 'file:' &&
+        !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      // Event helper used throughout the page; safe no-op when GA is disabled.
+      function track(name, params){ if (window.GA_ENABLED) gtag('event', name, params || {}); }
+      if (window.GA_ENABLED) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+        document.head.appendChild(gaScript);
+        gtag('js', new Date());
+        gtag('config', GA_MEASUREMENT_ID);
+      }
+    </script>
   </head>
   <body>
   <div id="stageWrap"><div id="stage">
@@ -178,6 +202,13 @@
        jnkVideo = document.getElementById("jnkVideo");
        skVideo = document.getElementById("skVideo");
 
+       if( skVideo && skVideo.addEventListener) {
+         skVideo.addEventListener('play', function(){ track('play_video', { member: 'Savannah' }); });
+       }
+       if( jnkVideo && jnkVideo.addEventListener) {
+         jnkVideo.addEventListener('play', function(){ track('play_video', { member: 'Jainna' }); });
+       }
+
        if( typeof jnkVideo.pause !== 'undefined') {
          $('#jnkText').bind('hide', function(){
            jnkVideo.pause();
@@ -228,6 +259,7 @@
            $(this).css({ 'left':(pos.left+2)+'px', 'top':(pos.top+2)+'px'});
            musicPlaying = true;
            au1.play();
+           track('play_song');
            firstRun = false;
            sync = setInterval('syncAnims()', 20); 
            $(this).fadeOut(100);
@@ -239,54 +271,63 @@
          $('#playimg').css({ 'left':pos.left+'px', 'top':pos.top+'px'});
          $(this).css({ 'left':(pos.left+2)+'px', 'top':(pos.top+2)+'px'});
          pauseSong();
+         track('pause_song');
        });
 
        $('#jnkimg').click( function() {
          $(displayedTextId).hide();
          $('#jnkText').fadeIn(500);
          displayedTextId='#jnkText';
+         track('view_bio', { member: 'Jainna' });
        });
 
        $('#jkimg').click( function() {
          $(displayedTextId).hide();
          $('#jkText').fadeIn(500);
          displayedTextId='#jkText';
+         track('view_bio', { member: 'Jackson' });
        });
 
        $('#brkimg').click( function() {
          $(displayedTextId).hide();
          $('#brkText').fadeIn(500);
          displayedTextId='#brkText';
+         track('view_bio', { member: 'Brianne' });
        });
 
        $('#bkimg').click( function() {
          $(displayedTextId).hide();
          $('#bkText').fadeIn(500);
          displayedTextId='#bkText';
+         track('view_bio', { member: 'Brian' });
        });
 
        $('#ekimg').click( function() {
          $(displayedTextId).hide();
          $('#ekText').fadeIn(500);
          displayedTextId='#ekText';
+         track('view_bio', { member: 'Liz' });
        });
 
        $('#hkimg').click( function() {
          $(displayedTextId).hide();
          $('#hkText').fadeIn(500);
          displayedTextId='#hkText';
+         track('view_bio', { member: 'Hannah' });
        });
 
        $('#mkimg').click( function() {
          $(displayedTextId).hide();
          $('#mkText').fadeIn(500);
          displayedTextId='#mkText';
+         track('view_bio', { member: 'Maegann' });
        });
 
        $('#skimg').click( function() {
          $(displayedTextId).hide();
          $('#skText').fadeIn(500);
          displayedTextId='#skText';
+         track('view_bio', { member: 'Savannah' });
        });
      }); //end on ready
 
@@ -399,6 +440,7 @@
        if( time == au1.duration) {
          pauseSong();
          resetSingerAnims();
+         track('song_complete');
        }
      }
          for( var key in singerAssignments) {
